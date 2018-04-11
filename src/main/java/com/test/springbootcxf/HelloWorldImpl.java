@@ -2,8 +2,10 @@ package com.test.springbootcxf;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import javax.jws.WebService;
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,6 +15,7 @@ import javax.jws.WebService;
  * @create 2018-04-09 下午2:41
  */
 @WebService(endpointInterface = "com.test.springbootcxf.HelloWorld")
+@Component
 public class HelloWorldImpl implements HelloWorld {
     private static final Logger LOGGER = LoggerFactory.getLogger(HelloWorldImpl.class);
 
