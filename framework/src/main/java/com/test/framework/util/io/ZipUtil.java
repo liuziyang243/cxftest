@@ -2,12 +2,11 @@ package com.test.framework.util.io;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.zip.*;
 
 /**
@@ -45,8 +44,8 @@ public class ZipUtil {
             }
         }
 
-
-        return new BASE64Encoder().encode(out.toByteArray());
+        Base64.Encoder encoder = Base64.getEncoder();
+        return encoder.encodeToString(out.toByteArray());
     }
 
     /**
@@ -66,7 +65,8 @@ public class ZipUtil {
         byte[] compressed = null;
         String decompressed = null;
         try {
-            compressed = new BASE64Decoder().decodeBuffer(compressedStr);
+            Base64.Decoder decoder = Base64.getDecoder();
+            compressed = decoder.decode(compressedStr);
             in = new ByteArrayInputStream(compressed);
             ginzip = new GZIPInputStream(in);
 
@@ -125,7 +125,8 @@ public class ZipUtil {
             zout.write(str.getBytes("UTF-8"));
             zout.closeEntry();
             compressed = out.toByteArray();
-            compressedStr = new BASE64Encoder().encodeBuffer(compressed);
+            Base64.Encoder encoder = Base64.getEncoder();
+            compressedStr = encoder.encodeToString(compressed);
         } catch (IOException e) {
             compressed = null;
         } finally {
@@ -163,7 +164,8 @@ public class ZipUtil {
         ZipInputStream zin = null;
         String decompressed = null;
         try {
-            byte[] compressed = new BASE64Decoder().decodeBuffer(compressedStr);
+            Base64.Decoder decoder = Base64.getDecoder();
+            byte[] compressed = decoder.decode(compressedStr);
             out = new ByteArrayOutputStream();
             in = new ByteArrayInputStream(compressed);
             zin = new ZipInputStream(in);
