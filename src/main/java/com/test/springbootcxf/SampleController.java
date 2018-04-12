@@ -2,9 +2,8 @@ package com.test.springbootcxf;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,12 +12,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author lzy
  * @create 2018-04-09 下午4:23
  */
-@Controller
+@RestController
+@RequestMapping("/rest/services")
 public class SampleController {
     private static final Logger LOGGER = LoggerFactory.getLogger(SampleController.class);
 
-    @RequestMapping("/rest/")
-    @ResponseBody
+    @RequestMapping("/")
     String home(String name) {
         LOGGER.info("call rest interface.");
         return "Hello World!" + name;

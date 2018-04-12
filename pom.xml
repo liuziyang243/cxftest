@@ -14,7 +14,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- package version -->
-        <springboot.version>1.5.12.RELEASE</springboot.version>
+        <springboot.version>2.0.1.RELEASE</springboot.version>
     </properties>
 
     <dependencyManagement>
@@ -49,6 +49,13 @@
             <scope>compile</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+            <version>2.0.1.RELEASE</version>
+        </dependency>
+
+
         <!-- cxf -->
         <!--<dependency>-->
             <!--<groupId>org.apache.cxf</groupId>-->
@@ -76,6 +83,13 @@
     </dependencies>
 
     <build>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
+
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -97,6 +111,15 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.21.0</version>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.7.0</version>
                 <!-- compile for Java 1.8 -->
@@ -107,82 +130,86 @@
                 </configuration>
             </plugin>
 
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${springboot.version}</version>
-                <configuration>
-                    <!--<mainClass>com.test.springbootcxf.SampleWsApplication</mainClass>-->
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
             <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-shade-plugin</artifactId>-->
-                <!--<version>3.1.0</version>-->
-                <!--<dependencies>-->
-                    <!--<dependency>-->
-                        <!--<groupId>org.springframework.boot</groupId>-->
-                        <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
-                        <!--<version>${springboot.version}</version>-->
-                    <!--</dependency>-->
-                <!--</dependencies>-->
+                <!--<groupId>org.springframework.boot</groupId>-->
+                <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
+                <!--<version>${springboot.version}</version>-->
                 <!--<configuration>-->
-                    <!--<keepDependenciesWithProvidedScope>true</keepDependenciesWithProvidedScope>-->
-                    <!--<createDependencyReducedPom>true</createDependencyReducedPom>-->
-                    <!--<filters>-->
-                        <!--<filter>-->
-                            <!--<artifact>*:*</artifact>-->
-                            <!--<excludes>-->
-                                <!--<exclude>META-INF/*.SF</exclude>-->
-                                <!--<exclude>META-INF/*.DSA</exclude>-->
-                                <!--<exclude>META-INF/*.RSA</exclude>-->
-                            <!--</excludes>-->
-                        <!--</filter>-->
-                    <!--</filters>-->
+                    <!--&lt;!&ndash;<mainClass>com.test.springbootcxf.SampleWsApplication</mainClass>&ndash;&gt;-->
+                    <!--<source>1.8</source>-->
+                    <!--<target>1.8</target>-->
                 <!--</configuration>-->
                 <!--<executions>-->
                     <!--<execution>-->
-                        <!--<phase>package</phase>-->
                         <!--<goals>-->
-                            <!--<goal>shade</goal>-->
+                            <!--<goal>repackage</goal>-->
                         <!--</goals>-->
-                        <!--<configuration>-->
-                            <!--<transformers>-->
-                                <!--<transformer-->
-                                        <!--implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">-->
-                                    <!--<resource>META-INF/spring.handlers</resource>-->
-                                <!--</transformer>-->
-                                <!--<transformer-->
-                                        <!--implementation="org.springframework.boot.maven.PropertiesMergingResourceTransformer">-->
-                                    <!--<resource>META-INF/spring.factories</resource>-->
-                                <!--</transformer>-->
-                                <!--<transformer-->
-                                        <!--implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">-->
-                                    <!--<resource>META-INF/spring.schemas</resource>-->
-                                <!--</transformer>-->
-                                <!--<transformer-->
-                                        <!--implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>-->
-                                <!--<transformer-->
-                                        <!--implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">-->
-                                    <!--<manifestEntries>-->
-                                        <!--<Main-Class>com.test.springbootcxf.SampleWsApplication</Main-Class>-->
-                                    <!--</manifestEntries>-->
-                                <!--</transformer>-->
-                            <!--</transformers>-->
-                        <!--</configuration>-->
                     <!--</execution>-->
                 <!--</executions>-->
             <!--</plugin>-->
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.1.0</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-maven-plugin</artifactId>
+                        <version>${springboot.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <keepDependenciesWithProvidedScope>true</keepDependenciesWithProvidedScope>
+                    <createDependencyReducedPom>true</createDependencyReducedPom>
+                    <filters>
+                        <filter>
+                            <artifact>*:*</artifact>
+                            <excludes>
+                                <exclude>META-INF/*.SF</exclude>
+                                <exclude>META-INF/*.DSA</exclude>
+                                <exclude>META-INF/*.RSA</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/spring.handlers</resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.springframework.boot.maven.PropertiesMergingResourceTransformer">
+                                    <resource>META-INF/spring.factories</resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/spring.schemas</resource>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <manifestEntries>
+                                        <Main-Class>com.test.springbootcxf.SampleWsApplication</Main-Class>
+                                    </manifestEntries>
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/cxf/bus-extensions.txt</resource>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
