@@ -20,9 +20,12 @@ public class WebServiceConfig {
     @Autowired
     private Bus bus;
 
+    @Autowired
+    private HelloWorld helloWorld;
+
     @Bean
     public Endpoint endpoint() {
-        EndpointImpl endpoint = new EndpointImpl(bus, new HelloWorldImpl());
+        EndpointImpl endpoint = new EndpointImpl(bus, helloWorld);
         endpoint.publish("/Hello");
         return endpoint;
     }
