@@ -1,10 +1,9 @@
-package com.test.springbootcxf;
+package com.test.springbootcxf.soap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
-
-import javax.jws.WebService;
 
 
 /**
@@ -14,7 +13,7 @@ import javax.jws.WebService;
  * @author lzy
  * @create 2018-04-09 下午2:41
  */
-@WebService(endpointInterface = "com.test.springbootcxf.HelloWorld")
+@Primary
 @Component
 public class HelloWorldImpl implements HelloWorld {
     private static final Logger LOGGER = LoggerFactory.getLogger(HelloWorldImpl.class);

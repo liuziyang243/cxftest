@@ -1,4 +1,4 @@
-package com.test.appconst;
+package com.test.springbootcxf.aop;
 
 /**
  * Created with IntelliJ IDEA.

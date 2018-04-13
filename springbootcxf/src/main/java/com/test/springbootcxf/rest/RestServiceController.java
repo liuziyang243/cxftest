@@ -1,4 +1,4 @@
-package com.test.springbootcxf;
+package com.test.springbootcxf.rest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/rest/services")
-public class SampleController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SampleController.class);
+public class RestServiceController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RestServiceController.class);
 
-    @RequestMapping("/")
+    @RequestMapping("/home")
     String home(String name) {
         LOGGER.info("call rest interface.");
         return "Hello World!" + name;
