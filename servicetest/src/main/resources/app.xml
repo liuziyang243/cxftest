@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+    <!-- 加载配置文件 -->
+    <context:property-placeholder location="classpath:app.properties"/>
+
+    <bean class="org.springframework.remoting.jaxws.SimpleJaxWsServiceExporter">
+        <property name="baseAddress" value="${travelService.baseServiceURL}"/>
+    </bean>
+
+    <bean id="helloService" class="com.test.soapInterface.HelloServiceImpl"/>
+
+    <bean class="com.test.soapInterface.AggregateServiceImpl">
+        <property name="impl" ref="helloService"/>
+    </bean>
+
+    <bean id="backService" class="com.test.aop.AopBackService"/>
+
+    <bean class="com.test.aop.TrackSoapInterfaceProcessTime">
+        <property name="backService" ref="backService"/>
+    </bean>
+
+
+</beans>

@@ -12,7 +12,4 @@
     </bean>
 
     <bean class="com.test.jaxwstest.HelloServiceImpl"/>
-
-
-
 </beans>
