@@ -16,7 +16,6 @@
         <module>parentmodule</module>
         <module>framework</module>
         <module>servicetest</module>
-        <module>module1</module>
     </modules>
 
 </project>

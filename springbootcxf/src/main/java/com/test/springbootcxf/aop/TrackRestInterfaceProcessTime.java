@@ -7,8 +7,6 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,29 +14,21 @@ import org.springframework.stereotype.Component;
  * Description:
  *
  * @author lzy
- * @create 2018-04-13 下午12:38
+ * @create 2018-04-17 上午10:51
  */
 @Aspect
 @Component
-@Order(1)
-public class TrackSoapInterfaceProcessTime {
-    private static final Logger logger = LoggerFactory.getLogger(TrackSoapInterfaceProcessTime.class);
+public class TrackRestInterfaceProcessTime {
+    private static final Logger logger = LoggerFactory.getLogger(TrackRestInterfaceProcessTime.class);
     private long startTime = 0;
 
-    private AopBackService backService;
-
-    public TrackSoapInterfaceProcessTime() {
-    }
-
-    @Autowired
-    public void setBackService(AopBackService backService) {
-        this.backService = backService;
+    public TrackRestInterfaceProcessTime() {
     }
 
     /**
      * 对所有子包中的类的所有public方法有效
      */
-    @Pointcut("execution(public * com.test.springbootcxf.soap.HelloWorldImpl.*(..))")
+    @Pointcut("execution(public * com.test.springbootcxf.rest.*.*(..))")
     public void recordTime() {
     }
 
@@ -46,7 +36,6 @@ public class TrackSoapInterfaceProcessTime {
     public void before(JoinPoint jp) {
         //获取访问时的当前时间
         startTime = System.currentTimeMillis();
-        backService.printMsg(String.valueOf(startTime));
     }
 
     @AfterReturning("recordTime()")
